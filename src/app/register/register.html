@@ -1,0 +1,118 @@
+<div class="register-page">
+  <div class="register-card">
+
+    <span class="register-badge">ACTIVITY TRACKER</span>
+
+    <h1>Üye Ol</h1>
+    <p class="subtitle">Yeni hesabını oluştur</p>
+
+    <form (ngSubmit)="register()">
+
+      <div class="form-group">
+        <label for="name">Ad Soyad</label>
+        <input
+          id="name"
+          type="text"
+          name="name"
+          [(ngModel)]="name"
+          placeholder="Adınızı ve soyadınızı girin"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="email">E-posta</label>
+        <input
+          id="email"
+          type="email"
+          name="email"
+          [(ngModel)]="email"
+          placeholder="ornek@email.com"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Şifre</label>
+
+        <div class="password-input-wrapper">
+          <input
+            id="password"
+            [type]="showPassword ? 'text' : 'password'"
+            name="password"
+            [(ngModel)]="password"
+            placeholder="Şifrenizi oluşturun"
+            required
+          />
+
+          <span
+            class="eye-icon"
+            (click)="showPassword = !showPassword"
+          >
+            👁
+          </span>
+        </div>
+
+        <div class="password-rules">
+          <p>Şifre en az:</p>
+
+          <span [class.valid]="hasMinLength">
+            {{ hasMinLength ? '✓' : '•' }} 8 karakter
+          </span>
+
+          <span [class.valid]="hasUppercase">
+            {{ hasUppercase ? '✓' : '•' }} 1 büyük harf
+          </span>
+
+          <span [class.valid]="hasLowercase">
+            {{ hasLowercase ? '✓' : '•' }} 1 küçük harf
+          </span>
+
+          <span [class.valid]="hasNumber">
+            {{ hasNumber ? '✓' : '•' }} 1 rakam
+          </span>
+
+          <span [class.valid]="hasSpecialChar">
+            {{ hasSpecialChar ? '✓' : '•' }}
+            1 özel karakter (! @ # $ % ^ & *)
+          </span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Şifre Tekrarı</label>
+
+        <div class="password-input-wrapper">
+          <input
+            id="confirmPassword"
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            name="confirmPassword"
+            [(ngModel)]="confirmPassword"
+            placeholder="Şifrenizi tekrar girin"
+            required
+          />
+
+          <span
+            class="eye-icon"
+            (click)="showConfirmPassword = !showConfirmPassword"
+          >
+            👁
+          </span>
+        </div>
+      </div>
+
+      <button type="submit">Üye Ol</button>
+
+    </form>
+
+    <p class="login-text">
+      Zaten hesabın var mı?
+      <a routerLink="/login">Giriş Yap</a>
+    </p>
+
+    <p *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </p>
+
+  </div>
+</div>

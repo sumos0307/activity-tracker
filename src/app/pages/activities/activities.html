@@ -1,0 +1,284 @@
+<div class="activities-page">
+
+  <div class="header">
+    <div class="header-text">
+      <span class="header-badge">ACTIVITY TRACKER</span>
+
+      <h1>Faaliyetlerini Yönet</h1>
+
+      <p>
+        Günlük faaliyetlerini planla, takip et ve ilerlemeni görüntüle.
+      </p>
+    </div>
+
+    <div class="header-decoration">
+      <div class="glow-orb"></div>
+    </div>
+  </div>
+  <div class="summary-cards">
+
+    <div class="summary-card">
+      <span class="summary-label">Toplam</span>
+      <strong>{{ totalActivities }}</strong>
+    </div>
+
+    <div class="summary-card planned-summary">
+      <span class="summary-label">Planlandı</span>
+      <strong>{{ plannedActivities }}</strong>
+    </div>
+
+    <div class="summary-card active-summary">
+      <span class="summary-label">Aktif</span>
+      <strong>{{ activeActivities }}</strong>
+    </div>
+
+    <div class="summary-card completed-summary">
+      <span class="summary-label">Tamamlandı</span>
+      <strong>{{ completedActivities }}</strong>
+    </div>
+
+  </div>
+  <div class="dashboard-content">
+
+    <div class="activity-form-card">
+
+      <h2>Yeni Faaliyet Ekle</h2>
+
+      <form (ngSubmit)="addActivity()">
+
+        <div class="form-group">
+          <label for="title">Başlık</label>
+
+          <input
+            id="title"
+            type="text"
+            name="title"
+            [(ngModel)]="title"
+            placeholder="Faaliyet başlığı"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="description">Açıklama</label>
+
+          <textarea
+            id="description"
+            name="description"
+            [(ngModel)]="description"
+            placeholder="Faaliyet açıklaması"
+            required>
+          </textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="activityType">Faaliyet Türü</label>
+
+          <select
+            id="activityType"
+            name="activityType"
+            [(ngModel)]="activityType"
+            required>
+
+            <option value="MEETING">Toplantı</option>
+            <option value="DEVELOPMENT">Yazılım Geliştirme</option>
+            <option value="BUG_FIX">Hata Düzeltme</option>
+            <option value="TESTING">Test</option>
+            <option value="CODE_REVIEW">Kod İnceleme</option>
+            <option value="RESEARCH">Araştırma</option>
+            <option value="DOCUMENTATION">Dokümantasyon</option>
+            <option value="TRAINING">Eğitim</option>
+            <option value="CUSTOMER_SUPPORT">Müşteri Desteği</option>
+            <option value="OTHER">Diğer</option>
+
+          </select>
+        </div>
+
+        <div class="date-row">
+
+          <div class="form-group">
+            <label for="startDate">Başlangıç Tarihi</label>
+
+            <input
+              id="startDate"
+              type="date"
+              name="startDate"
+              [(ngModel)]="startDate"
+              (click)="$any($event.target).showPicker()"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="endDate">Bitiş Tarihi</label>
+
+            <input
+              id="endDate"
+              type="date"
+              name="endDate"
+              [(ngModel)]="endDate"
+              [min]="startDate"
+              (click)="$any($event.target).showPicker()"
+              required
+            />
+          </div>
+
+        </div>
+
+        <label class="checkbox-row">
+          <input
+            type="checkbox"
+            name="completed"
+            [(ngModel)]="completed"
+          />
+          Tamamlandı
+        </label>
+
+        <button type="submit">
+          Faaliyet Ekle
+        </button>
+
+      </form>
+
+    </div>
+
+
+    <div class="activities-panel">
+
+      <div class="panel-header">
+        <h2>Faaliyetlerim</h2>
+      </div>
+      <div class="activity-filters">
+
+        <input
+          type="text"
+          name="searchText"
+          [(ngModel)]="searchText"
+          placeholder="Faaliyet ara..."
+          class="search-input"
+        />
+
+
+        <select
+          name="statusFilter"
+          [(ngModel)]="statusFilter"
+          class="status-filter">
+
+          <option value="ALL">Tüm Durumlar</option>
+          <option value="PLANNED">Planlandı</option>
+          <option value="ACTIVE">Aktif</option>
+          <option value="COMPLETED">Tamamlandı</option>
+
+        </select>
+        <select
+          name="sortOption"
+          [(ngModel)]="sortOption"
+          class="sort-filter">
+
+          <option value="NEAREST">En yakın tarih</option>
+          <option value="NEWEST">En yeni</option>
+          <option value="OLDEST">En eski</option>
+
+        </select>
+      </div>
+      <div
+        *ngIf="errorMessage"
+        class="error-message">
+
+        {{ errorMessage }}
+
+      </div>
+
+      <div
+        *ngIf="activities.length === 0 && !errorMessage"
+        class="empty-state">
+
+        Henüz faaliyet bulunmuyor.
+
+      </div>
+
+      <div
+        class="activity-list"
+        *ngIf="activities.length > 0">
+
+        <div
+          class="activity-card"
+          [class.planned-card]="activity.status === 'PLANNED'"
+          [class.active-card]="activity.status === 'ACTIVE'"
+          [class.completed-card]="activity.status === 'COMPLETED'"
+          *ngFor="let activity of filteredActivities">
+
+          <div class="activity-content">
+
+            <div class="activity-title-row">
+
+              <h2>
+                {{ activity.title }}
+              </h2>
+
+              <span class="type-badge">
+                {{ getActivityTypeLabel(activity.activityType) }}
+              </span>
+
+            </div>
+
+            <p>
+              {{ activity.description }}
+            </p>
+
+            <div
+              class="activity-dates"
+              *ngIf="activity.startDate || activity.endDate">
+
+              <span *ngIf="activity.startDate">
+                Başlangıç:
+                {{ activity.startDate | date:'dd.MM.yyyy' }}
+              </span>
+
+              <span *ngIf="activity.endDate">
+                Bitiş:
+                {{ activity.endDate | date:'dd.MM.yyyy' }}
+              </span>
+
+            </div>
+
+          </div>
+
+          <div class="activity-actions">
+
+            <span
+              class="status"
+              [class.planned]="activity.status === 'PLANNED'"
+              [class.active]="activity.status === 'ACTIVE'"
+              [class.completed]="activity.status === 'COMPLETED'">
+
+              {{
+                activity.status === 'PLANNED'
+                  ? 'Planlandı'
+                  : activity.status === 'COMPLETED'
+                    ? 'Tamamlandı'
+                    : 'Aktif'
+              }}
+
+            </span>
+
+            <button
+              type="button"
+              class="delete-button"
+              (click)="deleteActivity(activity.id)">
+
+              Sil
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
