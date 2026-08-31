@@ -42,7 +42,7 @@ export class Activities implements OnInit {
 
     this.http
       .get<any[]>(
-        'http://localhost:8080/api/activities',
+        'https://activity-tracker-backend-4erw.onrender.com/api/activities',
         { headers }
       )
       .subscribe({
@@ -93,7 +93,7 @@ export class Activities implements OnInit {
 
     this.http
       .post<any>(
-        'http://localhost:8080/api/activities',
+        'https://activity-tracker-backend-4erw.onrender.com/api/activities',
         body,
         { headers }
       )
@@ -183,7 +183,7 @@ export class Activities implements OnInit {
 
     this.http
       .delete(
-        `http://localhost:8080/api/activities/${id}`,
+        `https://activity-tracker-backend-4erw.onrender.com/api/activities/${id}`,
         { headers }
       )
       .subscribe({
