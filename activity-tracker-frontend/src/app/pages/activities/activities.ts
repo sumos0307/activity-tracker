@@ -42,7 +42,7 @@ export class Activities implements OnInit {
 
     this.http
       .get<any[]>(
-        'http://https://activity-tracker-backend-4erw.onrender.com/api/activities',
+        'https://activity-tracker-backend-4erw.onrender.com/api/activities',
         { headers }
       )
       .subscribe({
@@ -93,7 +93,7 @@ export class Activities implements OnInit {
 
     this.http
       .post<any>(
-        'http://https://activity-tracker-backend-4erw.onrender.com/api/activities',
+        'https://activity-tracker-backend-4erw.onrender.com/api/activities',
         body,
         { headers }
       )
@@ -142,7 +142,6 @@ export class Activities implements OnInit {
   }
   get filteredActivities(): any[] {
     const filtered = this.activities.filter((activity: any) => {
-
       const title = activity.title?.toLowerCase() || '';
       const description = activity.description?.toLowerCase() || '';
       const search = this.searchText.toLowerCase();
@@ -183,7 +182,7 @@ export class Activities implements OnInit {
 
     this.http
       .delete(
-        `http://https://activity-tracker-backend-4erw.onrender.com/api/activities/${id}`,
+        `https://activity-tracker-backend-4erw.onrender.com/api/activities/${id}`,
         { headers }
       )
       .subscribe({

@@ -70,7 +70,7 @@ export class Register {
     };
 
     this.http
-      .post('https://activity-tracker-backend-4erw.onrender.com', registerData)
+      .post('https://activity-tracker-backend-4erw.onrender.com/api/users/register', registerData)
       .subscribe({
 
         next: () => {
