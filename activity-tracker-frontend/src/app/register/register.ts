@@ -74,6 +74,7 @@ export class Register {
       .subscribe({
 
         next: () => {
+          console.log('REGISTER SUCCESS');
           this.router.navigate(['/login'],{
           state:{
             message:'Kayıt başarılı! Şimdi hesabınıza giriş yapabilirsiniz.'
