@@ -49,9 +49,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(
-                "http://localhost:4200",
-                "http://localhost:62964"));
+      configuration.setAllowedOrigins(List.of(
+        "http://localhost:4200",
+        "http://localhost:62964",
+        "https://activity-tracker-1-4zsj.onrender.com"));
         configuration.setAllowedMethods(
                 List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
