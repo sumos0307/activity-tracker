@@ -33,7 +33,7 @@ export class Login {
 
     this.http
       .post<{ token: string }>(
-        'https://activity-tracker-backend-4erw.onrender.com',
+        'https://activity-tracker-backend-4erw.onrender.com/api/users/login',
         body
       )
       .subscribe({
